@@ -2,5 +2,5 @@
 """Rectangle class module"""
 
 class Rectangle:
-	"""Empty rectangle class"""
-	pass
+    """Empty rectangle class"""
+    pass
