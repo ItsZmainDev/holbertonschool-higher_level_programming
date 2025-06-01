@@ -1,3 +1,6 @@
+#!/usr/bin/env python3
+"""Duck Typing Example with Abstract Base Class"""
+
 from abc import ABC, abstractmethod
 import math
 
