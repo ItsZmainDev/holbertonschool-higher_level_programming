@@ -4,6 +4,7 @@
 from abc import ABC, abstractmethod
 import math
 
+
 class Shape(ABC):
     """Abstract Base Class for shapes"""
 
@@ -16,6 +17,7 @@ class Shape(ABC):
     def perimeter(self):
         """Returns the perimeter of the shape"""
         pass
+
 
 class Circle(Shape):
     """Class representing a circle."""
@@ -32,6 +34,7 @@ class Circle(Shape):
         """Returns the perimeter of the circle"""
         return 2 * math.pi * self.radius
 
+
 class Rectangle(Shape):
     """Class representing a rectangle"""
 
@@ -47,6 +50,7 @@ class Rectangle(Shape):
     def perimeter(self):
         """Returns the perimeter of the rectangle"""
         return 2 * (self.width + self.height)
+
 
 def shape_info(shape):
     """Prints the area and perimeter of a given shape"""
