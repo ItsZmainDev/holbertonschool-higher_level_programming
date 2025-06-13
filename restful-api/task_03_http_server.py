@@ -5,29 +5,24 @@ import http.server
 import json
 
 
-class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
+class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
-        if self.path == '/data':
+        if self.path == "/":
             self.send_response(200)
-            self.send_header('Content-type', 'application/json')
             self.end_headers()
-            data = json.dumps({"name": "John", "age": 30, "city": "New York"})
-            self.wfile.write(data.encode())
-        elif self.path == '/status':
+            self.wfile.write(b"Welcome to the root endpoint!")
+        elif self.path == "/data":
             self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            self.wfile.write("OK".encode())
-        elif self.path == '/':
+            self.wfile.write(b"Here is your data.")
+        elif self.path == "/status":
             self.send_response(200)
-            self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            self.wfile.write("Hello, this is a simple API!".encode())
+            self.wfile.write(b"Status: OK")
         else:
             self.send_response(404)
-            self.send_header('Content-type', 'text/plain')
             self.end_headers()
-            self.wfile.write("404 Not Found".encode())
+            self.wfile.write(b"Error: Endpoint not found.")
 
 
 def run(server_class=http.server.HTTPServer,
