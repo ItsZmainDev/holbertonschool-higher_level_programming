@@ -4,7 +4,6 @@ import json
 
 
 class SimpleAPIHandler(BaseHTTPRequestHandler):
-
     def do_GET(self):
         if self.path == "/":
             self.send_response(200)
@@ -23,6 +22,13 @@ class SimpleAPIHandler(BaseHTTPRequestHandler):
             self.end_headers()
             status = {"status": "OK"}
             self.wfile.write(json.dumps(status).encode())
+        elif self.path == "/info":
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            info = {"version": "1.0",
+                    "description": "A simple API built with http.server"}
+            self.wfile.write(json.dumps(info).encode())
         else:
             self.send_response(404)
             self.send_header("Content-Type", "application/json")
