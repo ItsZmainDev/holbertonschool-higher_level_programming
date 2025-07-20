@@ -1,9 +1,12 @@
+import os
+
 def generate_invitations(template, attendees):
     if not isinstance(template, str):
-        print("Erreur : le template doit être une chaîne de caractères.")
+        print("Error: Template must be a string.")
         return
+
     if not isinstance(attendees, list) or not all(isinstance(a, dict) for a in attendees):
-        print("Erreur : attendees doit être une liste de dictionnaires.")
+        print("Error: Attendees must be a list of dictionaries.")
         return
 
     if template.strip() == "":
@@ -14,12 +17,17 @@ def generate_invitations(template, attendees):
         print("No data provided, no output files generated.")
         return
 
-    placeholders = ["name", "event_title", "event_date", "event_location"]
+    for idx, person in enumerate(attendees, start=1):
+        # Replace each placeholder, using .get() and defaulting to "N/A"
+        filled_template = template
+        filled_template = filled_template.replace("{name}", str(person.get("name", "N/A") or "N/A"))
+        filled_template = filled_template.replace("{event_title}", str(person.get("event_title", "N/A") or "N/A"))
+        filled_template = filled_template.replace("{event_date}", str(person.get("event_date", "N/A") or "N/A"))
+        filled_template = filled_template.replace("{event_location}", str(person.get("event_location", "N/A") or "N/A"))
 
-    for idx, attendee in enumerate(attendees, start=1):
-        output = template
-        for key in placeholders:
-            value = attendee.get(key, "N/A")
-            output = output.replace("{{" + key + "}}", str(value))
-        with open(f"output_{idx}.txt", "w") as f:
-            f.write(output)
+        output_filename = f"output_{idx}.txt"
+        try:
+            with open(output_filename, "w", encoding="utf-8") as output_file:
+                output_file.write(filled_template)
+        except Exception as e:
+            print(f"Error writing to {output_filename}: {e}")
