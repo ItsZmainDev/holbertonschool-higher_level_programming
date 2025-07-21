@@ -6,14 +6,13 @@ app = Flask(__name__)
 @app.route('/items')
 def items():
     try:
-        with open("items.json", "r") as file:
-            data = json.load(file)
+        with open('items.json', 'r') as f:
+            data = json.load(f)
             item_list = data.get("items", [])
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"Error reading items.json: {e}")
+    except (FileNotFoundError, json.JSONDecodeError):
         item_list = []
 
-    return render_template("items.html", items=item_list)
+    return render_template('items.html', items=item_list)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

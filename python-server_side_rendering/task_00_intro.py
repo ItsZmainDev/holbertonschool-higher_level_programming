@@ -1,32 +1,33 @@
-import os
-
 def generate_invitations(template, attendees):
+
     if not isinstance(template, str):
-        print("Error: Template must be a string.")
+        print("Error: Template should be a string.")
         return
 
     if not isinstance(attendees, list) or not all(isinstance(a, dict) for a in attendees):
-        print("Error: Attendees must be a list of dictionaries.")
+        print("Error: Attendees should be a list of dictionaries.")
         return
 
-    if template.strip() == "":
+    if not template.strip():
         print("Template is empty, no output files generated.")
         return
 
-    if len(attendees) == 0:
+    if not attendees:
         print("No data provided, no output files generated.")
         return
 
-    for idx, person in enumerate(attendees, start=1):
-        filled_template = template
-        filled_template = filled_template.replace("{name}", str(person.get("name", "N/A") or "N/A"))
-        filled_template = filled_template.replace("{event_title}", str(person.get("event_title", "N/A") or "N/A"))
-        filled_template = filled_template.replace("{event_date}", str(person.get("event_date", "N/A") or "N/A"))
-        filled_template = filled_template.replace("{event_location}", str(person.get("event_location", "N/A") or "N/A"))
+    for idx, attendee in enumerate(attendees, start=1):
+        personalized = template
+
+        for key in ["name", "event_title", "event_date", "event_location"]:
+            value = attendee.get(key)
+            if value is None:
+                value = "N/A"
+            personalized = personalized.replace(f"{{{key}}}", str(value))
 
         output_filename = f"output_{idx}.txt"
         try:
-            with open(output_filename, "w", encoding="utf-8") as output_file:
-                output_file.write(filled_template)
+            with open(output_filename, 'w') as f:
+                f.write(personalized)
         except Exception as e:
-            print(f"Error writing to {output_filename}: {e}")
+            print(f"Error writing file {output_filename}: {e}")

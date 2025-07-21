@@ -1,1 +1,0 @@
-Readme for Python project for loop
